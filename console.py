@@ -24,6 +24,7 @@ from models.amenity import Amenity
 # importing Review from models.review module
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
     """ General Class for HBNBCommand """
     prompt = '(hbnb) '
@@ -138,6 +139,7 @@ class HBNBCommand(cmd.Cmd):
                     print('** attribute name missing **')
             else:
                 print('** no instance found **')
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
