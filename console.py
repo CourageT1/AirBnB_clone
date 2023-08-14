@@ -116,23 +116,22 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def do_all(self, arg):
+    def do_all(self, line):
         """
         Prints all string representation of all instances
         based or not on the class name.
         Usage: all or all <class name>
         """
-        args = arg.split()
-        if not args:
-            objects = [str(obj) for obj in storage.all().values()]
-            print(objects)
-        elif args[0] in self.__classes:
-            class_name = args[0]
-            class_instances = [
-                str(obj) for obj in getattr(models, class_name).all()]
-            print(class_instances)
-        else:
+        args = self.parse(line)
+        all_objs = models.storage.all().copy()
+        if args[0] not in [cl.__name__ for cl in MODELS]:
             print("** class doesn't exist **")
+        else:
+            print(
+                [str(value)
+                 for key, value in all_objs.items()
+                 if key.split(".")[0] == args[0]]
+            )
 
     def do_update(self, arg):
         """
