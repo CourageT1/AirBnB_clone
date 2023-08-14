@@ -126,11 +126,11 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             objects = [str(obj) for obj in storage.all().values()]
             print(objects)
-        elif args[0] in BaseModel.__subclasses__():
-            objects = [
-                    str(obj) for obj in storage.all().values
-                    if isinstance(obj, args[0])]
-            print(objects)
+        elif args[0] in self.__classes:
+            class_name = args[0]
+            class_instances = [
+                str(obj) for obj in getattr(models, class_name).all()]
+            print(class_instances)
         else:
             print("** class doesn't exist **")
 
