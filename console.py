@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
         based or not on the class name.
         Usage: all or all <class name>
         """
-         args = line.split()
+        args = line.split()
         all_objs = models.storage.all()
         if not args:
             print([str(value) for value in all_objs.values()])
