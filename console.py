@@ -144,6 +144,18 @@ class HBNBCommand(cmd.Cmd):
         """
         return line.split()
 
+     def default(self, line):
+        """Handles custom commands, including <class name>.all()"""
+        args = shlex.split(line)
+        if len(args) >= 2 and args[1] == ".all()":
+            class_name = args[0]
+            if class_name in self.__classes:
+                self.do_all(class_name)
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("*** Unknown syntax: " + line)
+
     def do_update(self, arg):
         """
         Updates an instance based on the class name and
