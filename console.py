@@ -123,39 +123,25 @@ class HBNBCommand(cmd.Cmd):
         based or not on the class name.
         Usage: all or all <class name>
         """
-        args = shlex.split(arg)
-        obj_list = []
-        if len(args) == 0:
-            obj_dict = models.storage.all()
-        elif args[0] in classes:
-            obj_dict = models.storage.all(classes[args[0]])
+        args = line.split()
+        all_objs = models.storage.all()
+        if not args:
+            print([str(value) for value in all_objs.values()])
+        elif args[0] in self.__classes:
+            print(
+                [str(value)
+                 for key, value in all_objs.items()
+                 if key.split(".")[0] == args[0]]
+            )
         else:
             print("** class doesn't exist **")
-            return False
-        for key in obj_dict:
-            obj_list.append(str(obj_dict[key]))
-        print("[", end="")
-        print(", ".join(obj_list), end="")
-        print("]")
 
     def parse(self, line):
         """
         Parse command line arguments
         """
         return line.split()
-
-     def default(self, line):
-        """Handles custom commands, including <class name>.all()"""
-        args = shlex.split(line)
-        if len(args) >= 2 and args[1] == ".all()":
-            class_name = args[0]
-            if class_name in self.__classes:
-                self.do_all(class_name)
-            else:
-                print("** class doesn't exist **")
-        else:
-            print("*** Unknown syntax: " + line)
-
+        
     def do_update(self, arg):
         """
         Updates an instance based on the class name and
