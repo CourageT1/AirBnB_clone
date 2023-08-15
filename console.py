@@ -122,16 +122,24 @@ class HBNBCommand(cmd.Cmd):
         based or not on the class name.
         Usage: all or all <class name>
         """
-        args = self.parse(line)
-        all_objs = models.storage.all().copy()
-        if args[0] not in [cl.__name__ for cl in MODELS]:
-            print("** class doesn't exist **")
-        else:
+         args = line.split()
+        all_objs = models.storage.all()
+        if not args:
+            print([str(value) for value in all_objs.values()])
+        elif args[0] in self.__classes:
             print(
                 [str(value)
                  for key, value in all_objs.items()
                  if key.split(".")[0] == args[0]]
             )
+        else:
+            print("** class doesn't exist **")
+
+    def parse(self, line):
+        """
+        Parse command line arguments
+        """
+        return line.split()
 
     def do_update(self, arg):
         """
